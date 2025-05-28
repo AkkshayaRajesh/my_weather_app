@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_weather_app/models/weather_model.dart';
 import 'package:my_weather_app/services/weather_service.dart';
+import 'package:lottie/lottie.dart';
 
 class WeatherPage extends StatefulWidget {
   const WeatherPage({super.key});
@@ -34,6 +35,44 @@ String cityName = await _weatherService.getCurrentCity();
 }
 
 // Weather Animation
+  String getWeatherAnimation(String? mainCondition) {
+    if (mainCondition == null) return 'assets/sunny.json';
+    switch (mainCondition.toLowerCase()) {
+      case 'clouds':
+        return 'assets/cloud.json';
+      case 'mist':
+        return 'assets/windy.json';
+      case 'smoke':
+        return 'assets/windy.json';
+      case 'haze':
+        return 'assets/windy.json';
+      case 'dust':
+        return 'assets/windy.json';
+      case 'fog':
+        return 'assets/windy.json';
+      case 'rain':
+        return 'assets/rainy.json';
+      case 'drizzle':
+      case 'shower rain':
+        return 'assets/rainy.json';
+      case 'clear':
+        return 'assets/sunny.json';
+      case 'tornado':
+        return 'assets/thunder.json';
+      case 'squall':
+        return 'assets/cloud.json';
+      case 'ash':
+        return 'assets/cloud.json';
+      case 'sand':
+        return 'assets/windy.json';
+      case 'snow':
+        return 'assets/snowy.json';
+      case 'thunderstorm':
+        return 'assets/thunder.json';
+      default:
+        return 'assets/sunny.json';
+    }
+  }
 
 
 //Initial State
@@ -51,8 +90,21 @@ Widget build(BuildContext context) {
       body: Center(
         child:Column(mainAxisAlignment: MainAxisAlignment.center, 
         children:        
-        [ Text(_weather?.cityName ?? 'Loading...'),
-        Text('${_weather?.temperature.round()}°C' ),
+        [ 
+          //City Name
+          Text(_weather?.cityName ?? 'Loading...'),
+          //Weather Animation
+          Lottie.asset(
+            getWeatherAnimation(_weather?.mainCondition),
+            width: 200,
+            height: 200,
+          ),
+        
+          // Temperature 
+          Text('${_weather?.temperature.round()}°C' ),
+
+          // Weather Condition
+          Text(_weather?.mainCondition ?? 'Loading...'),
         ],
         ),
       ),
